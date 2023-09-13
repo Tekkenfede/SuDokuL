@@ -367,7 +367,7 @@ extern void initStartingTextVariables();
     strcpy(dest, src);
 #else
 #define STRCPY(dest, src) \
-    strcpy_s(dest, src);
+    strcpy(dest, src);
 #endif
 
 #define SET_LARGE_TEXT_WITH_OUTLINE_HELPER(text, textObj, pos_x, pos_y)                              \
