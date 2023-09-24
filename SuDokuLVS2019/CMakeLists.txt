@@ -20,12 +20,24 @@ add_executable(sudokul
 )
 
 # Doesn't work; use VS project file for Windows compilation
-if(WINDOWS32)
-	target_link_libraries(sudokul -L${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2-2.0.14/lib/x86 -L${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_image-2.0.5/lib/x86 -L${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_mixer-2.0.4/lib/x86 -L${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_ttf-2.0.15/lib/x86)
-	find_package(PkgConfig REQUIRED)
-	target_link_libraries(sudokul PkgConfig::SDL2 PkgConfig::SDL2_image PkgConfig::SDL2_mixer PkgConfig::SDL2_ttf)
-	target_link_options(sudokul PRIVATE -static-libgcc -static-libstdc++)
-	add_definitions(-DSDL_MAIN_HANDLED)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(sudokul
+        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2-2.0.14/lib/arm64
+        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_image-2.0.5/lib/arm64
+        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_mixer-2.0.4/lib/arm64
+        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_ttf-2.0.15/lib/arm64
+    )
+
+    find_package(PkgConfig REQUIRED)
+    target_link_libraries(sudokul
+        PkgConfig::SDL2
+        PkgConfig::SDL2_image
+        PkgConfig::SDL2_mixer
+        PkgConfig::SDL2_ttf
+    )
+    
+    target_link_options(sudokul PRIVATE -static-libgcc -static-libstdc++)
+    add_definitions(-DSDL_MAIN_HANDLED)
 endif()
 
 if (WIIU)
@@ -60,7 +72,8 @@ if (VITA)
 	target_link_libraries(sudokul SDL2_ttf SDL2_mixer SDL2_image SDL2 freetype png png16 bz2 jpeg z mikmod mpg123 FLAC vorbisfile vorbis ogg webp pthread)
  	target_link_options(sudokul PRIVATE -static-libgcc -static-libstdc++)
 	# find_package(SDL2 REQUIRED)
-	# target_link_libraries(sudokul SDL2_ttf SDL2_mixer SDL2_image SDL2)
+ 	add_definitions(-DSDL_MAIN_HANDLED)
+
  
 	)
 endif()
