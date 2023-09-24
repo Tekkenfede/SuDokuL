@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(sudokul CXX)
 
-add_executable(sudokul)
+add_executable(sudokul
 	"src/main.cpp"
 	"src/config.h"
 	"src/game_logic.h"
@@ -20,7 +20,6 @@ add_executable(sudokul)
 )
 
 # Doesn't work; use VS project file for Windows compilation
-if(UNIX AND NOT APPLE)
     # Set the target architecture to aarch64
     set(CMAKE_SYSTEM_PROCESSOR "aarch64")
 
@@ -41,46 +40,3 @@ if(UNIX AND NOT APPLE)
     
     target_link_options(sudokul PRIVATE -static-libgcc -static-libstdc++)
     add_definitions(-DSDL_MAIN_HANDLED)
-endif()
-
-if (WIIU)
-	include("${DEVKITPRO}/wut/share/wut.cmake" REQUIRED)
-	find_package(PkgConfig REQUIRED)
-	add_definitions(-DWII_U)
-
-	target_link_libraries(sudokul -L${DEVKITPRO}/portlibs/wiiu/lib -L${DEVKITPRO}/portlibs/ppc/lib -L${DEVKITPRO}/wut/lib)
-	# target_link_libraries(sudokul -lSDL2_ttf -lSDL2_mixer -lmodplug -lvorbisfile -lvorbis -logg -lSDL2_gfx -lSDL2_image -lSDL2 -lfreetype -lpng -lmpg123 -lbz2 -ljpeg -lz -lwut)
-	pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET SDL2)
-	pkg_check_modules(SDL2_image REQUIRED IMPORTED_TARGET SDL2_image)
-	pkg_check_modules(SDL2_mixer REQUIRED IMPORTED_TARGET SDL2_mixer)
-	pkg_check_modules(SDL2_ttf REQUIRED IMPORTED_TARGET SDL2_ttf)
-	target_link_libraries(sudokul PkgConfig::SDL2 PkgConfig::SDL2_image PkgConfig::SDL2_mixer PkgConfig::SDL2_ttf)
-
-	set(SDL2_INCLUDE_DIRS
-	"${DEVKITPRO}/portlibs/wiiu/include/SDL2;\
-	${DEVKITPRO}/portlibs/ppc/include;\
-	${DEVKITPRO}/wut/include;\
-	${DEVKITPRO}/devkitPPC/powerpc-eabi/include;"
-	)
-	include_directories(${SDL2_INCLUDE_DIRS})
-
-	wut_create_rpx(sudokul)
-
-	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/sudokul.rpx"
-			DESTINATION "${CMAKE_INSTALL_PREFIX}")
-endif()
-
-if (VITA)
-	# find_package(PkgConfig REQUIRED)
-	target_link_libraries(sudokul SDL2_ttf SDL2_mixer SDL2_image SDL2 freetype png png16 bz2 jpeg z mikmod mpg123 FLAC vorbisfile vorbis ogg webp pthread)
- 	target_link_options(sudokul PRIVATE -static-libgcc -static-libstdc++)
-	# find_package(SDL2 REQUIRED)
- 	add_definitions(-DSDL_MAIN_HANDLED)
-
- 
-	)
-endif()
-
-unset(WINDOWS32 CACHE)
-unset(WIIU CACHE)
-unset(VITA CACHE)
