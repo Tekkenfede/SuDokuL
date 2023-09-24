@@ -21,11 +21,14 @@ add_executable(sudokul)
 
 # Doesn't work; use VS project file for Windows compilation
 if(UNIX AND NOT APPLE)
+    # Set the target architecture to aarch64
+    set(CMAKE_SYSTEM_PROCESSOR "aarch64")
+
     target_link_libraries(sudokul
-        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2-2.0.14/lib/arm64
-        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_image-2.0.5/lib/arm64
-        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_mixer-2.0.4/lib/arm64
-        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_ttf-2.0.15/lib/arm64
+        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2-2.0.14/lib/aarch64
+        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_image-2.0.5/lib/aarch64
+        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_mixer-2.0.4/lib/aarch64
+        ${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_ttf-2.0.15/lib/aarch64
     )
 
     find_package(PkgConfig REQUIRED)
