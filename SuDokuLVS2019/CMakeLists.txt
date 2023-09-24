@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(sudokul CXX)
 
-add_executable(sudokul
+add_executable(sudokul)
 	"src/main.cpp"
 	"src/config.h"
 	"src/game_logic.h"
